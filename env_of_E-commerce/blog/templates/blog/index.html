@@ -1,0 +1,57 @@
+{% extends 'shop/basic.html' %} 
+<!-- for desigin of blog card https://codepen.io/pbruny/pen/XWXObeM -->
+{% block title %}Blog 🔥{% endblock title %} 
+{% block style %} 
+.blog-index-custom-btn{
+  background: linear-gradient(to right, #99004d 0%, #ff0080 100%);
+  font-size: 17px;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.blog-index-custom-btn:hover{
+  color:#fff;
+  letter-spacing: 1px;
+  background: linear-gradient(3%, #99004d 0%, #ff0080 100%);
+}
+.blogpost-title-custom{
+  color: rgb(31 41 55);
+}
+{% endblock style %} 
+{% block body %}
+
+<div class="container my-5">
+  <div class="row my-2">
+
+      {% for blog in blogs %}
+      <div class="col-md-6">
+          <div
+              class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+              <div class="col p-4 d-flex flex-column position-static">
+                  <strong class="blogpost-title-custom d-inline-block mb-2 ">{{blog.head0}}</strong>
+                  <h3 class="mb-0">{{blog.tilte}}</h3>
+                  <div class="mb-1 text-muted">{{blog.pub_date}}</div>
+                  <p class="card-text mb-auto">{{blog.chead0|slice:":105"}} ..</p>
+                  <a href="blogpost/{{blog.post_id}}" class="mt-2 stretched-link">
+                    <button type="button" class="blog-index-custom-btn btn">
+                      Read More
+                    </button>
+                  </a>
+              </div>
+              <div class="col-auto d-none d-lg-block">
+                  <img src="/media/{{blog.thumbnail}}" style="object-fit:cover;"  class="bd-placeholder-img" width="200" height="100%" aria-label="Placeholder: Thumbnail" aria-label="Placeholder: Thumbnail" alt="">
+              </div>
+          </div>
+      </div>
+      {% endfor %}
+
+  </div>
+</div>
+
+{% endblock body %}
+
+{% block script %}
+
+
+{% endblock script %}

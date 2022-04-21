@@ -1,0 +1,29 @@
+{% extends 'basic.html' %}
+{% block title %}Thank's{% endblock title %}
+{% block style %}{% endblock style %}
+{% block body %}
+
+
+<section class="container w-75 d-flex align-items-center justify-content-center flex-column">
+    <h5>{{h5}}</h5>
+    <h6>{{h5_1}}</h6>
+    <p>{{p}}</p>
+    <a href="/shop">
+        <button type="button" class="btn btn-light btn-outline-secondary">
+            {{button}}
+        </button>
+    </a>
+</section>
+<!--
+h5 = f'Thank {name} for Contact Us . Your Response has Been Recorded 🥰'
+        p = 'you response will be responded soon ⌚⌛'
+        button = 'Go to Home'
+        h5_1 = ""
+        thank = True
+        params = {'h5': h5, 'p': p, 'button': button,
+                  'name': name, 'h5_1': h5_1, 'thank': thank}
+        return render(request,'thank.html',params)
+-->
+
+{% endblock body %}
+{% block script %}{% endblock script %}

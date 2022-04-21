@@ -1,0 +1,342 @@
+{% extends 'basic.html' %}
+{% load humanize %}
+{% load extra %} # next level
+{% block title %}Blog Post 📭{% endblock title %}
+{% block blogActive %} active{% endblock blogActive %}
+{% block style %}
+<style>
+    .hero {
+        width: 100%;
+        height: 10vh;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .hero h2 {
+        font-size: 25px;
+    }
+
+    .social-links {
+        display: flex;
+        margin-top: 15px;
+    }
+
+    .social-links a {
+        width: 40px;
+        height: 40px;
+        text-align: center;
+        text-decoration: none;
+        color: #000;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.01);
+        border-radius: 50%;
+        margin: 5px;
+        position: relative;
+        overflow: hidden;
+        transition: 0.5s;
+    }
+
+    .social-links a .fab {
+        font-size: 20px;
+        line-height: 40px;
+        position: relative;
+        z-index: 10;
+        transition: color 0.5s;
+    }
+
+    .social-links a:nth-child(1)::after {
+        background-image: linear-gradient(to right, #43e97b 0%, #38f9d7 100%);
+    }
+
+    .social-links a:nth-child(2)::after {
+        background-image: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
+    }
+
+    .social-links a:nth-child(3)::after {
+        background-image: linear-gradient(to right, #b8cbb8 0%, #b8cbb8 0%, #b465da 0%, #cf6cc9 33%, #ee609c 66%, #ee609c 100%);
+    }
+
+    .social-links a:nth-child(4)::after {
+        background-image: linear-gradient(to top, #0fd850 0%, #f9f047 100%);
+    }
+
+    h2 span {
+        background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
+        color: #fff;
+        font-size: 15px;
+        padding: 2px 4px;
+        border-radius: 10px;
+    }
+
+    .social-links a::after {
+        position: absolute;
+        top: -90px;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: linear-gradient(to bottom, #fa709a 0%, #fee140 100%);
+        ;
+        content: '';
+        transition: 0.5s;
+    }
+
+    .social-links a:hover::after {
+        top: 0;
+    }
+
+    .social-links a:hover .fab {
+        color: #fff;
+    }
+
+    .social-links a:hover {
+        transform: translateY(-4px);
+    }
+
+    .blogpost-custom-para2 {
+        position: absolute;
+        bottom: 5%;
+        right: 1%;
+    }
+
+    .blogpost-custom-para1 {
+        position: absolute;
+        bottom: 5%;
+        right: 12%;
+    }
+
+    .blogpost-reply-margin {
+        /* margin-left: 90px; */
+    }
+</style>
+{% endblock style %}
+
+
+{% block body %}
+
+<div class="container min-vh-100 mt-3 mb-5">
+    <div class="row mt-4">
+        <div class="col-md-8 blog-main">
+            <img src="/media/{{post.image}}" class="mb-4 img-fluid shadow p-3 mb-5 bg-white rounded" alt="">
+            <h2 class="pb-4 mb-4 blog-post-title border-bottom">
+                {{post.title}} 
+                <div class="d-none">
+                    <span>
+                        {{post.view}}
+                    </span>
+                    view
+                </div>
+
+            </h2>
+
+            <div class="blog-post">
+
+                <p>{{post.content|safe}}</p>
+
+                {% if user.is_authenticated  %}
+                <h2 class="blog-post-title mt-5">
+                    Leave a Comment
+                    <small>
+                        ({{ comments|length }} 🔥)
+                    </small>
+                </h2>
+                <form action="/blog/postComment" class="mt-4" method="post">
+                    {% csrf_token %}
+                    <div class="form-floating">
+                        <textarea type="text" name="comment" class="form-control" placeholder="Leave a comment here"
+                            id="comment" style="height: 100px"></textarea>
+                    </div>
+                    <input type="hidden" name="parent" value="">
+                    <input type="hidden" value="{{post.sno}}" name="postId">
+                    <div class="d-flex flex-row-reverse mt-2">
+                        <input class="btn btn-outline-primary" type="submit" value="Post">
+                        <div class="d-flex align-self-center mr-4 character-count">0</div>
+                    </div>
+                </form>
+                {% else %}
+
+                <div class="container">
+                    <i class="text-info">Login to post the comment 😭 ({{ comments|length }} 🔥)</i>
+                    <a href="/login" class="mx-3">
+                        <button class="btn btn-outline-info my-2 mx-1 my-sm-0" type="submit">
+                            Login
+                        </button>
+                    </a>
+                </div>
+
+                {% endif %}
+
+
+                {% if not comments.all %}
+                Be the first one to comment 😊
+                {% else %}
+
+                {% for comment in comments.all %}
+                <div class="position-relative d-flex w-75 shadow py-0 overflow-hidden my-4 bg-white rounded">
+                    <div class="box-top py-2 col-md-5" style="border-left: 4px solid #17a2b8">
+                        <div class="p-0 profile col d-flex">
+                            <div class="profile-img">
+                                <img class="border border-dark rounded-circle" style="width: 50px;
+                                            height: 50px;
+                                            object-fit: cover;
+                                            object-position: center;"
+                                    src="https://cdn3.iconfinder.com/data/icons/avatars-15/64/_Ninja-2-512.png" alt="">
+                            </div>
+                            <div class="w-auto py-2 mx-2 d-flex flex-column">
+                                <div class="h5 m-0">{{comment.user.username}}</div>
+                                <small class="fw-lighter">
+                                    {{comment.timeStamp|naturaltime}}
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-0 py-2 w-auto col-md-6 comment">
+                        <p style=" word-wrap: break-word;">{{comment.comment|truncatechars:150}}</p>
+                    </div>
+
+
+                    {% if user.is_authenticated %}
+
+                    <!-- Reply to the comment -->
+                    <div class="container">
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <p class="blogpost-custom-para1 mb-0">
+                                            <button class="btn btn-outline-info btn-sm" type="button"
+                                                data-bs-toggle="collapse" data-bs-target="#collapse{{comment.sno}}"
+                                                data-toggle="collapse" href="#collapse{{comment.sno}}"
+                                                aria-expanded="false" aria-controls="collapse{{comment.sno}}">
+                                                view Replies
+                                            </button>
+                                        </p>
+                                    </h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reply to the comment -->
+                    <div class="container">
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <p class="blogpost-custom-para2 mb-0">
+                                            <button class="btn btn-outline-info btn-sm" type="button"
+                                                data-bs-toggle="collapse" data-bs-target="#collapseExample"
+                                                data-toggle="collapse" href="#collapse1{{comment.sno}}"
+                                                aria-expanded="false" aria-controls="collapseExample">
+                                                Reply
+                                            </button>
+                                        </p>
+                                    </h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- Body of collapse -->
+                <div id="collapse1{{comment.sno}}" class="panel-collapse collapse">
+                    <form action="/blog/postComment" class="mt-4 w-75" method="post">
+                        {% csrf_token %}
+                        <div class="form-floating">
+                            <textarea type="text" name="comment" class="form-control" placeholder="Reply a comment here"
+                                style="height: 100px"></textarea>
+                        </div>
+                        <input type="hidden" name="parent" value="{{comment.sno}}">
+                        <input type="hidden" value="{{post.sno}}" name="postId">
+                        <div class="d-flex flex-row-reverse mt-2">
+                            <input class="btn btn-outline-primary" type="submit" value="Post">
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Body of collapse -->
+                <div id="collapse{{comment.sno}}" class="panel-collapse collapse">
+                    <!-- Reply pop up using for loop -->
+                    <div class="w-100 ml-3 blogpost-reply-margin replies">
+                        {% for reply in replyDict|get_val:comment.sno %}
+
+                        <div class="position-relative d-flex w-75 shadow py-2 my-1 bg-white rounded"
+                            style="border-left:2px solid #03a9f4">
+                            <div class="box-top col-md-5">
+                                <div class="p-0 profile col d-flex">
+                                    <div class="profile-img">
+                                        <img class="border border-dark rounded-circle" style="width: 50px;
+                                                    height: 50px;
+                                                    object-fit: cover;
+                                                    object-position: center;"
+                                            src="https://cdn3.iconfinder.com/data/icons/avatars-15/64/_Ninja-2-512.png"
+                                            alt="">
+                                    </div>
+                                    <div class="w-auto mx-2 d-flex flex-column">
+                                        <div class="h5 m-0">{{reply.user.username}}</div>
+                                        <small class="fw-lighter">
+                                            {{reply.timeStamp|naturaltime}}
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-0 w-auto col-md-6 comment">
+                                <p style=" word-wrap: break-word;">{{reply.comment|truncatechars:150}}</p>
+                            </div>
+                        </div>
+
+                        {% endfor %}
+                    </div>
+                </div>
+
+
+                {% endfor %}
+
+                {% endif %}
+
+            </div><!-- /.blog-post -->
+
+        </div><!-- /.blog-main -->
+
+        <aside class="col-md-4 blog-sidebar">
+            <div class="p-4 mb-3 bg-light rounded">
+                <h4 class="font-italic">About</h4>
+                <p class="mb-0">My Awesome Cart <em>started out as a small project and is now</em> the fastest
+                    growing
+                    e-commerce stores of all times in india and abroad.</p>
+            </div>
+
+
+
+            <div class="p-4">
+                <div class="hero">
+                    <h2>Social Media <span>Link</span></h2>
+                    <div class="social-links">
+                        <a href="about/"><i class="fab fa-facebook-f"></i></a>
+                        <a href="about/"><i class="fab fa-youtube"></i></a>
+                        <a href="about/"><i class="fab fa-twitter"></i></a>
+                        <a href="about/"><i class="fab fa-instagram"></i></a>
+                        <a href="about/"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+        </aside><!-- /.blog-sidebar -->
+
+    </div>
+</div>
+
+
+{% endblock body %}
+
+
+{% block script %}
+<script>
+    mychar = document.getElementById("comment")
+    mychar.addEventListener("input", function () {
+        document.getElementsByClassName("character-count")[0].innerHTML = this.value.length;
+    });
+</script>
+{% endblock script %}

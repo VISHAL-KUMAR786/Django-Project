@@ -1,0 +1,69 @@
+{% extends 'basic.html' %}
+{% block title %}Home 🔥{% endblock title %}
+{% block homeActive %} active {% endblock homeActive %}
+{% block style %}
+<style>
+  
+</style>
+{% endblock style %}
+
+
+{% block body %}
+
+
+<!-- Top amazing navigation bar to be uploaded -->
+
+
+<div class="container min-vh-100">
+  <div class="w-100 my-5">
+    <h2 class="my-4">Popular Upload 🔥 </h2>
+    <div class="row my-2">
+      {% for post in posts %}
+      <div class="col-md-6">
+        <div
+          class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+          <div class="col p-4 d-flex flex-column position-static">
+            <a href="{{post.slug}}">
+              <div class="fw-light blogpost-title-custom d-inline-block mb-1">
+                Article By {{post.author}}
+              </div>
+            </a>
+            <a href="{{post.slug}}" class="text-decoration-none">
+              <h3 class="mb-0 h2 text-dark">
+                {{post.title}}
+              </h3>
+            </a>
+            <small class="mb-1 text-muted">{{post.timeStamp}}</small>
+            <p class="card-text mb-auto">
+              <div class="preserved">
+                {{post.content|safe| truncatechars:150}}
+              </div>
+            </p>
+            <a href="blog/{{post.slug}}" class="mt-2 stretched-link">
+              <button type="button" class="blog-index-custom-btn btn">
+                Read More
+              </button>
+            </a>
+          </div>
+          <div class="col-auto d-none d-lg-block">
+            <img src="/media/{{post.image}}" style="object-fit:cover;" class="bd-placeholder-img" width="200"
+              height="100%" aria-label="Placeholder: Thumbnail" aria-label="Placeholder: Thumbnail" alt="">
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock body %}
+
+
+{% block script %}
+<script>
+
+</script>
+{% endblock script %}

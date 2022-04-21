@@ -1,0 +1,291 @@
+{% extends 'shop/basic.html' %}
+{% block title %}Tracker 🛒{% endblock title %}
+{% block style %}
+.badge{
+    color:#fff;
+}
+h4.checkout-custom-heading{
+    position:relative;
+}
+h4.checkout-custom-heading::after{
+    content: '';
+    position: absolute;
+    height: 4px;
+    width: 80px;
+    left: 0;
+    bottom: -15%;
+    border-radius: 5px;
+    background: linear-gradient(to right, #99004d 0%, #ff0080 100%);
+}
+.tracker-custom-underline{
+  position:relative;
+  font-size: 20px;
+  margin-left: 5px;
+}
+.tracker-custom-underline::after{
+  content: '';
+  position: absolute;
+  height: 2px;
+  width: 100%;
+  left: 0;
+  bottom: -15%;
+  border-radius: 5px;
+  background: linear-gradient(to right, #007991, #78ffd6);
+}
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+.contact-container{
+  background: #fff;
+  max-width: 1000px;
+  width: 100%;
+  height:auto;
+  padding: 25px 30px;
+  border-radius: 5px;
+  box-shadow: 0 10px 50px rgba(0, 0, 0, 0.15);
+}
+.contact-container form .title{
+  font-size: 30px;
+  font-weight: 600;
+  margin: 20px 0 10px 0;
+  position: relative;
+}
+.contact-container form .title:before{
+  content: '';
+  position: absolute;
+  height: 4px;
+  width: 100px;
+  left: 0px;
+  bottom: 3px;
+  border-radius: 5px;
+  background: linear-gradient(to right, #99004d 0%, #ff0080 100%);
+}
+.contact-container form .input-box{
+  width: 100%;
+  height: 45px;
+  margin-top: 25px;
+  position: relative;
+}
+.contact-container form .input-box input{
+  width: 100%;
+  height: 100%;
+  outline: none;
+  font-size: 16px;
+  border: none;
+}
+.contact-container form .underline::before{
+  content: '';
+  position: absolute;
+  height: 2px;
+  width: 100%;
+  background: #ccc;
+  left: 0;
+  bottom: 0;
+}
+.contact-container form .underline::after{
+  content: '';
+  position: absolute;
+  height: 2px;
+  width: 100%;
+  background: linear-gradient(to right, #99004d 0%, #ff0080 100%);
+  left: 0;
+  bottom: 0;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: all 0.3s ease;
+}
+.contact-container form .input-box textarea:focus ~ .underline::after,
+.contact-container form .input-box textarea:valid ~ .underline::after,
+.contact-container form .input-box input:focus ~ .underline::after,
+.contact-container form .input-box input:valid ~ .underline::after{
+  transform: scaleX(1);
+  transform-origin: left;
+}
+.contact-container form .button{
+  margin: 40px 0 20px 0;
+}
+.contact-container .input-box input[type="submit"]{
+  background: linear-gradient(to right, #99004d 0%, #ff0080 100%);
+  font-size: 17px;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.contact-container .input-box input[type="submit"]:hover{
+  letter-spacing: 1px;
+  background: linear-gradient(to left, #99004d 0%, #ff0080 100%);
+}
+.contact-container .option{
+  font-size: 14px;
+  text-align: center;
+}
+.contact-container .facebook a,
+.contact-container .twitter a{
+  display: block;
+  height: 45px;
+  width: 100%;
+  font-size: 15px;
+  text-decoration: none;
+  padding-left: 20px;
+  line-height: 45px;
+  color: #fff;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.contact-container .facebook i,
+.contact-container .twitter i{
+  padding-right: 12px;
+  font-size: 20px;
+}
+.contact-container textarea{
+    width:100%;
+    outline:none;
+    border:none;
+    resize: none;
+    overflow:none;
+}
+.contact-container .twitter a{
+  background: linear-gradient(to right,  #00acee 0%, #1abeff 100%);
+  margin: 20px 0 15px 0;
+}
+.contact-container .twitter a:hover{
+  background: linear-gradient(to left,  #00acee 0%, #1abeff 100%);
+  margin: 20px 0 15px 0;
+}
+.contact-container .facebook a{
+  background: linear-gradient( to right,  #3b5998 0%, #476bb8 100%);
+  margin: 20px 0 50px 0;
+}
+.contact-container .facebook a:hover{
+  background: linear-gradient( to left,  #3b5998 0%, #476bb8 100%);
+  margin: 20px 0 50px 0;
+}
+.input-box.col-md-6.underline::after{
+    width:50px;
+}
+{% endblock style %}
+{% block body %}
+
+<div class="contact-container container min-vh-100 h-auto my-5">
+
+    <div class="col my-4">
+        <h4 class="my-3 checkout-custom-heading">Track Your Order 🗺</h4>
+        <form action="" method="post" id="trackerForm" autocomplete="off">    {% csrf_token %}
+            {% csrf_token %}
+            <div class="d-flex">
+                <div class="input-box underline mr-2">
+                    <input type="text" placeholder="Enter Your OrderId" name="orderId" required>
+                    <div class="underline"></div>
+                </div>
+                <div class="input-box underline">
+                    <input type="email" placeholder="Enter Your Email" name="email" required>
+                    <div class="underline"></div>
+                </div>
+            </div>
+            <div class="input-box button">
+                <input type="submit" value="Track Order">
+            </div>
+        </form>
+    </div>
+    <div class="col">
+        <h4 class="my-3 checkout-custom-heading">Order Status</h4>
+        <div class="my-4">
+            <ul class="list-group" id="items">
+              <li class="list-group-item d-flex justify-content-center align-items-center">
+                Please Enter <div class="tracker-custom-underline "> Order Id and Email </div> &nbsp for tracking the order 📝       
+              </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col">
+        <h4 class="my-3 checkout-custom-heading">Order Details</h4>
+        <div class="my-4">
+            <ul class="list-group" id="citems">
+              <li class="list-group-item d-flex justify-content-center align-items-center">
+                Please Enter <div class="tracker-custom-underline "> Order Id and Email </div> &nbsp for Seeing the order details ✍🏻       
+              </li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock body %}
+
+{% block script %}
+
+    
+    $('#trackerForm').submit(function(event) {
+        $('#items').empty()
+        var formData = {
+            'orderId': $('input[name=orderId]').val(),
+            'email': $('input[name=email]').val(),
+            'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+        }
+        $.ajax({
+            type: 'POST',
+            url: '',
+            data: formData,
+            encode: true,
+        })
+        .done(function(data){
+          $('#citems').empty()
+          data = JSON.parse(data);
+          
+          if(data['status'] == "success"){
+            console.log(data)
+            updatedData = data['updates']
+            // i have reverse the order it was in accending order
+            for(let i = updatedData.length; i > 0  ; i--){
+              let text = updatedData[i-1]['text'] 
+              let time = updatedData[i-1]['time'] 
+              let a = new Date(time)
+              mybasic = `
+              <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-action">
+                  ${text}
+                  <span class="badge bg-light text-dark p-2">${dateManager(a)}</span>
+              </li>
+              `
+              $('#items').append(mybasic) 
+            }
+            cart = JSON.parse(data['item_json'])
+            for(item in cart){
+              let name = cart[item][0]
+              let qty = cart[item][1]
+              mystr = `            <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-action">
+                ${name}
+                <span class="badge bg-light text-dark p-2">${qty}</span>
+            </li>`
+            $('#citems').append(mystr)
+            }
+          }else{
+            mybasic = `
+            <li class="list-group-item d-flex justify-content-center align-items-center list-group-item-action">
+              Please Check if you have enter the correct value in &nbsp 
+              <span class="tracker-custom-underline mr-2">OrderId or Email ! </span> &nbsp😭😞            
+            </li>
+            `
+            $('#items').append(mybasic) 
+          }
+        })
+        event.preventDefault()
+    })
+
+    const dateManager = (todayDate)=>{
+      let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  
+      let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+      
+      let year = todayDate.getFullYear()
+      let month = months[todayDate.getMonth()]
+      let date = todayDate.getDate()
+      let day = days[todayDate.getDay()]
+      return  `${date} ${month} (${day}), ${year}`
+    }
+
+
+{% endblock script %}
+
+<!--
+
+ 
+-->

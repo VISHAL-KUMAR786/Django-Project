@@ -1,0 +1,296 @@
+{% extends 'basic.html' %}
+{% block title %}CA 🔥{% endblock title %}
+{% block style %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+    .contact-container {
+        background: #fff;
+        max-width: 1000px;
+        width: 100%;
+        height: auto;
+        padding: 25px 30px;
+        border-radius: 5px;
+        box-shadow: 0 10px 50px rgba(0, 0, 0, 0.15);
+    }
+
+    .contact-container form .title {
+        font-size: 30px;
+        font-weight: 600;
+        margin: 20px 0 10px 0;
+        position: relative;
+    }
+
+    .contact-container form .title:before {
+        content: '';
+        position: absolute;
+        height: 4px;
+        width: 70px;
+        left: 0px;
+        bottom: 3px;
+        border-radius: 5px;
+        background: linear-gradient(to right, #99004d 0%, #ff0080 100%);
+    }
+
+    .contact-container form .input-box {
+        width: 100%;
+        height: 45px;
+        margin-top: 25px;
+        position: relative;
+    }
+
+    .contact-container form .input-box input {
+        width: 100%;
+        height: 100%;
+        outline: none;
+        font-size: 16px;
+        border: none;
+    }
+
+    .contact-container form .underline::before {
+        content: '';
+        position: absolute;
+        height: 2px;
+        width: 100%;
+        background: #ccc;
+        left: 0;
+        bottom: 0;
+    }
+
+    .contact-container form .underline::after {
+        content: '';
+        position: absolute;
+        height: 2px;
+        width: 100%;
+        background: linear-gradient(to right, #99004d 0%, #ff0080 100%);
+        left: 0;
+        bottom: 0;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: all 0.3s ease;
+    }
+
+    .contact-container form .input-box textarea:focus~.underline::after,
+    .contact-container form .input-box textarea:valid~.underline::after,
+    .contact-container form .input-box input:focus~.underline::after,
+    .contact-container form .input-box input:valid~.underline::after {
+        transform: scaleX(1);
+        transform-origin: left;
+    }
+
+    .contact-container form .button {
+        margin: 40px 0 20px 0;
+    }
+
+    .contact-container .input-box input[type="submit"] {
+        background: linear-gradient(to right, #99004d 0%, #ff0080 100%);
+        font-size: 17px;
+        color: #fff;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .contact-container .input-box input[type="submit"]:hover {
+        letter-spacing: 1px;
+        background: linear-gradient(to left, #99004d 0%, #ff0080 100%);
+    }
+
+    .contact-container .option {
+        font-size: 14px;
+        text-align: center;
+    }
+
+    .contact-container .facebook a,
+    .contact-container .twitter a {
+        display: block;
+        height: 45px;
+        width: 100%;
+        font-size: 15px;
+        text-decoration: none;
+        padding-left: 20px;
+        line-height: 45px;
+        color: #fff;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+    }
+
+    .contact-container .facebook i,
+    .contact-container .twitter i {
+        padding-right: 12px;
+        font-size: 20px;
+    }
+
+    .contact-container textarea {
+        width: 100%;
+        outline: none;
+        border: none;
+        resize: none;
+        overflow: none;
+    }
+
+    .contact-container .twitter a {
+        background: linear-gradient(to right, #00acee 0%, #1abeff 100%);
+        margin: 20px 0 15px 0;
+    }
+
+    .contact-container .twitter a:hover {
+        background: linear-gradient(to left, #00acee 0%, #1abeff 100%);
+        margin: 20px 0 15px 0;
+    }
+
+    .contact-container .facebook a {
+        background: linear-gradient(to right, #3b5998 0%, #476bb8 100%);
+        margin: 20px 0 50px 0;
+    }
+
+    .contact-container .facebook a:hover {
+        background: linear-gradient(to left, #3b5998 0%, #476bb8 100%);
+        margin: 20px 0 50px 0;
+    }
+
+    @media (max-width:1026px) {
+        .contact-container{
+            width: 100%;
+            box-shadow: none;
+            padding: 0 30px;
+        }    
+        .footer-content{
+            font-size:14px;
+        }    
+    }
+    /* checkbox css */
+    .form-group {
+        display: block;
+        margin-top: 25px;
+    }
+      
+    .form-group input {
+        padding: 0;
+        height: initial;
+        width: initial;
+        margin-bottom: 0;
+        display: none;
+        cursor: pointer;
+    }
+      
+    .form-group label {
+        position: relative;
+        cursor: pointer;
+        family: 'Poppins';
+        opacity: 0.8;
+        margin-left:20px;
+    }
+      
+    .form-group label:before {
+        content:'';
+        -webkit-appearance: none;
+        background-color: transparent;
+        border: 2px solid #99004d;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
+        padding: 10px;
+        display: inline-block;
+        position: relative;
+        vertical-align: middle;
+        cursor: pointer;
+        margin-right: 15px;
+    }
+      
+    .form-group input:checked + label:after {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 5px;
+        left: 9px;
+        width: 6px;
+        height: 14px;
+        border: solid #ff0080;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+    }
+    .form-group input#dobUk::placeholder{
+        padding-left: 20px;
+    }
+    .form-group input#dobUk:focus{
+        border: 2px solid #99004d;
+    }
+    .form-group input#dobUk{
+        display:block;
+        border: 2px solid #eee;
+        cursor: pointer;
+        padding: 5px ;
+        outline: none;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
+    }
+    .form-group label.control-label::after,
+    .form-group label.control-label::before{
+        display: none;
+    }
+</style>
+{% endblock style %}
+{% block body %}
+
+
+
+
+<div class="contact-container container my-5">
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="title">Chartered Accountants</div>
+        <!-- Pan No -->
+        <div class="input-box underline">
+            <input type="text" placeholder="Enter Unique PanNo" name="panNo" id="panNo" required>
+            <div class="underline"></div>
+        </div>  
+        <!-- Name -->
+        <div class="mr-2 input-box underline">
+            <input type="text" placeholder="Enter Client Name" name="name" id="name" required>
+            <div class="underline"></div>
+        </div>
+        <!-- Phone -->
+        <div class="input-box underline mx-1">
+            <input type="tel" placeholder="Enter Client phone number" name="phone" id="phone" required>
+            <div class="underline"></div>
+        </div>
+        <!-- Completed -->
+        <div class="d-flex">
+            <div class="form-group">
+                <input type="checkbox" name="completed" id="completed">
+                <label for="completed">Completed</label>
+            </div>
+            <div class="form-group mx-5 d-flex">
+                <input type="date" name="dobUk" placeholder="_ _ /_ _ /_ _ _ _" id="dobUk">
+                <label for="dobUk" class="control-label">Date of birth</label>
+            </div>
+        </div>
+        <!-- unit -->
+        <div class="mr-2 input-box underline">
+            <input type="text" placeholder="Enter Client Unit Name" name="unit" id="name" required>
+            <div class="underline"></div>
+        </div>
+        <!-- Email -->
+        <div class="input-box underline">
+            <input type="emailSign" placeholder="Enter Client Email" name="email" id="email" required  autocomplete="false" >
+            <div class="underline"></div>      
+        </div>
+        <!-- Password -->
+        <div class="input-box underline">
+            <input type="password" placeholder="Enter Client Password" name="Password" id="Password" required  readonly onfocus="this.removeAttribute('readonly');" >
+            <div class="underline"></div>
+        </div>
+
+        <div class="input-box button">
+            <input type="submit" name="" value="Submit">
+        </div>
+    </form>
+</div>
+
+{% endblock body %}
+{% block script %}
+<script>
+
+
+    
+</script>
+{% endblock script %}

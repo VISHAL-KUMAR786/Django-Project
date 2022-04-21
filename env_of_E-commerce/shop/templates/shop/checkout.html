@@ -1,0 +1,277 @@
+{% extends 'shop/basic.html' %}
+{% block title %}Checkout 🛒{% endblock title %}
+{% block style %}
+.badge{
+    color:#fff;
+}
+h4.checkout-custom-heading{
+    position:relative;
+}
+h4.checkout-custom-heading::after{
+    content: '';
+    position: absolute;
+    height: 4px;
+    width: 80px;
+    left: 0;
+    bottom: -15%;
+    border-radius: 5px;
+    background: linear-gradient(to right, #99004d 0%, #ff0080 100%);
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+.contact-container{
+  background: #fff;
+  max-width: 1000px;
+  width: 100%;
+  height:auto;
+  padding: 25px 30px;
+  border-radius: 5px;
+  box-shadow: 0 10px 50px rgba(0, 0, 0, 0.15);
+}
+.contact-container form .title{
+  font-size: 30px;
+  font-weight: 600;
+  margin: 20px 0 10px 0;
+  position: relative;
+}
+.contact-container form .title:before{
+  content: '';
+  position: absolute;
+  height: 4px;
+  width: 100px;
+  left: 0px;
+  bottom: 3px;
+  border-radius: 5px;
+  background: linear-gradient(to right, #99004d 0%, #ff0080 100%);
+}
+.contact-container form .input-box{
+  width: 100%;
+  height: 45px;
+  margin-top: 25px;
+  position: relative;
+}
+.contact-container form .input-box input{
+  width: 100%;
+  height: 100%;
+  outline: none;
+  font-size: 16px;
+  border: none;
+}
+.contact-container form .underline::before{
+  content: '';
+  position: absolute;
+  height: 2px;
+  width: 100%;
+  background: #ccc;
+  left: 0;
+  bottom: 0;
+}
+.contact-container form .underline::after{
+  content: '';
+  position: absolute;
+  height: 2px;
+  width: 100%;
+  background: linear-gradient(to right, #99004d 0%, #ff0080 100%);
+  left: 0;
+  bottom: 0;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: all 0.3s ease;
+}
+.contact-container form .input-box textarea:focus ~ .underline::after,
+.contact-container form .input-box textarea:valid ~ .underline::after,
+.contact-container form .input-box input:focus ~ .underline::after,
+.contact-container form .input-box input:valid ~ .underline::after{
+  transform: scaleX(1);
+  transform-origin: left;
+}
+.contact-container form .button{
+  margin: 40px 0 20px 0;
+}
+.contact-container .input-box input[type="submit"]{
+  background: linear-gradient(to right, #99004d 0%, #ff0080 100%);
+  font-size: 17px;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.contact-container .input-box input[type="submit"]:hover{
+  letter-spacing: 1px;
+  background: linear-gradient(to left, #99004d 0%, #ff0080 100%);
+}
+.contact-container .option{
+  font-size: 14px;
+  text-align: center;
+}
+.contact-container .facebook a,
+.contact-container .twitter a{
+  display: block;
+  height: 45px;
+  width: 100%;
+  font-size: 15px;
+  text-decoration: none;
+  padding-left: 20px;
+  line-height: 45px;
+  color: #fff;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.contact-container .facebook i,
+.contact-container .twitter i{
+  padding-right: 12px;
+  font-size: 20px;
+}
+.contact-container textarea{
+    width:100%;
+    outline:none;
+    border:none;
+    resize: none;
+    overflow:none;
+}
+.contact-container .twitter a{
+  background: linear-gradient(to right,  #00acee 0%, #1abeff 100%);
+  margin: 20px 0 15px 0;
+}
+.contact-container .twitter a:hover{
+  background: linear-gradient(to left,  #00acee 0%, #1abeff 100%);
+  margin: 20px 0 15px 0;
+}
+.contact-container .facebook a{
+  background: linear-gradient( to right,  #3b5998 0%, #476bb8 100%);
+  margin: 20px 0 50px 0;
+}
+.contact-container .facebook a:hover{
+  background: linear-gradient( to left,  #3b5998 0%, #476bb8 100%);
+  margin: 20px 0 50px 0;
+}
+.input-box.col-md-6.underline::after{
+    width:50px;
+}
+{% endblock style %}
+{% block body %}
+
+<div class="contact-container container my-5">
+
+    <div class="col my-4">
+        <h4 class="my-3 checkout-custom-heading">Step 01 : Your Cart Item 😍🥰</h4>
+        <ul class="list-group my-4" id="item">
+          
+        </ul>
+
+        <ul class="list-group my-1">
+          <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-action">
+            Total : 
+            <span>
+              ₹
+              <span class="badge ml-1 bg-light text-dark text-xl-start" id="totalcost">
+                0
+              </span>
+            </span>
+          </li>
+        </ul>
+
+
+    </div>
+
+    <div class="contact-container container my-5">
+        <form action="" method="post" autocomplete="off">    {% csrf_token %}
+          {% csrf_token %}
+          <input type="hidden" id="itemsJson" name="item_json">
+          <input type="hidden" id="amount" name="amount">
+          <div class="title">Step 02 : Enter Details to Place Order 🛒</div>
+          <div class="input-box underline">
+            <input type="text" placeholder="Enter Your Name" name="name" required>
+            <div class="underline"></div>
+          </div>
+          <div class="input-box underline">
+            <input type="email" placeholder="Enter Your Email" name="email" required>
+            <div class="underline"></div>
+          </div>
+          <div class="input-box underline">
+            <input type="text" placeholder="Enter Your Address1" name="address1" required>
+            <div class="underline"></div>
+          </div>
+          <div class="input-box underline">
+            <input type="text" placeholder="Enter Your Address2" name="address2" required>
+            <div class="underline"></div>
+          </div>
+          <div class="d-flex">
+            <div class="input-box underline mr-2"> 
+                <input type="text" placeholder="Enter Your City" name="city" required>
+                <div class="underline"></div>
+              </div>
+              <div class="input-box underline ">
+                <input type="text" placeholder="Enter Your State" name="state" required>
+                <div class="underline"></div>
+              </div>
+          </div>
+          <div class="d-flex">
+            <div class="input-box w-50">
+              <input type="text" placeholder="Enter Your Zip" name="zip" required>
+              <div class="underline"></div>
+            </div>
+          </div>
+          <div class="input-box underline">
+            <input type="tel" placeholder="Enter Your Phone" name="phone" required>
+            <div class="underline"></div>
+          </div>
+          <div class="input-box button">
+            <input type="submit" name="" value="Place Order">
+          </div>
+        </form>
+    </div>
+
+</div>
+{% endblock body %}
+
+{% block script %}
+/* Handling cart value */
+if (localStorage.getItem('cart') == null) {
+  var cart = {}
+} else {
+  cart = JSON.parse(localStorage.getItem('cart'))
+}
+var totalcost1 = 0
+var sum = 0
+if ($.isEmptyObject(cart)){
+  mybasic = `
+  <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-action">
+    Your cart is empty, please add some items before checking out ! 😭😞
+    <span class="badge bg-primary rounded-pill">0</span>
+  </li>
+  `
+  $('#item').append(mybasic)
+}else{
+  for(item in cart){
+      if(cart[item][0] != 0){
+          let qty = cart[item][0]
+          let name = cart[item][1]
+          let itemcost = cart[item][2] 
+          sum += qty
+          totalcost1 += itemcost*qty
+          mybasic = `
+          <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-action">
+              ${name}
+              <div>
+              ₹
+                <span class="badge text-dark">${itemcost} * </span><span class="badge bg-primary rounded-pill">${qty}</span>
+              </div>
+          </li>
+          
+          `
+          $('#item').append(mybasic)  
+      }
+  }
+  document.getElementById('totalcost').innerHTML = totalcost1
+}
+document.getElementById('cart').innerHTML = sum
+$('#itemsJson').val(JSON.stringify(cart))
+
+$('cart').popover('show'); // this was the problem
+
+$('#amount').val($('#totalcost').html())
+
+{% endblock script %}

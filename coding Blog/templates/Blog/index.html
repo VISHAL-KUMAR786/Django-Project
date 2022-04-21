@@ -1,0 +1,103 @@
+{% extends 'basic.html' %}
+{% block title %}Blog 🔥{% endblock title %}
+{% block blogActive %} active{% endblock blogActive %}
+{% block style %}
+<style>
+  
+</style>
+{% endblock style %}
+{% block body %}
+
+<div class="container min-vh-100 my-5">
+  <div class="row my-2">
+
+    {% for post in posts.object_list %}
+    <div class="col-md-6">
+      <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+        <div class="col p-4 d-flex flex-column position-static">
+          <a href="{{post.slug}}">
+            <div class="fw-light blogpost-title-custom d-inline-block mb-1">
+              Article By {{post.author}}
+            </div>
+          </a>
+          <a href="{{post.slug}}" class="text-decoration-none">
+            <h3 class="mb-0 h2 text-dark">
+              {{post.title}}
+            </h3>
+          </a>
+          <small class="mb-1 text-muted">{{post.timeStamp}}</small>
+          <p class="card-text mb-auto">
+            <div class="preserved">
+              {{post.content|safe| truncatechars:150}}
+            </div>
+          </p>
+          <a href="{{post.slug}}" class="mt-2 stretched-link">
+            <button type="button" class="blog-index-custom-btn btn">
+              Read More
+            </button>
+          </a>
+        </div>
+        <div class="col-auto d-none d-lg-block">
+          <img src="/media/{{post.image}}" style="object-fit:cover;" class="bd-placeholder-img" width="200"
+            height="100%" aria-label="Placeholder: Thumbnail" aria-label="Placeholder: Thumbnail" alt="">
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+
+  </div>
+</div>
+
+<!-- Pagination -->
+<nav class="d-flex align-items-center justify-content-center" aria-label="Page navigation example">
+  <ul class="pagination">
+
+    {% if posts.has_previous %}
+      <li class="page-item">
+        <a class="blog-index-custom-btn btn page-link"
+          href="{% url 'blogHome' %}?page={{posts.previous_page_number}}">Previous</a>
+      </li>
+    {% else %}
+      <li class="page-item disabled">
+        <a class="page-link">Previous</a>
+      </li>
+    {% endif %}
+
+    {% for num in posts.paginator.page_range %}
+      <!-- Middle one selector -->
+      {% if posts.number == num %}
+        <li class="page-item">
+          <a class="blog-index-custom-btn btn page-link" href="?page={{ num }}">{{num}}</a>
+        </li>
+      {% elif num > posts.number|add:'-2' and num < posts.number|add:'2' %}
+        <li class="page-item">
+          <a class="blog-index-custom-btn btn page-link" href="?page={{ num }}">{{num}}</a>
+        </li>
+      {% endif %}
+    {% endfor %}
+
+    {% if posts.has_next %}
+      <li class="page-item">
+        <a class="blog-index-custom-btn btn page-link"
+          href="{% url 'blogHome' %}?page={{posts.next_page_number}}">Next</a>
+      </li>
+    {% else %}
+      <li class="page-item disabled">
+        <a class="page-link">Next</a>
+      </li>
+    {% endif %}
+
+  </ul>
+</nav>
+
+
+
+{% endblock body %}
+{% block script %}
+<script>
+  let preserved = document.getElementsByClassName('preserved')
+  Array.from(preserved).forEach(element => {
+    element.innerHTML = element.innerText
+  });
+</script>
+{% endblock script %}

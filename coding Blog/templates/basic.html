@@ -1,0 +1,328 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+    integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous" />
+
+  <title>{% block title %}{% endblock title %}</title>
+
+  <!-- basic css -->
+  <style>
+    @import url("https://use.fontawesome.com/releases/v5.6.1/css/all.css");
+    @import url("https://fonts.googleapis.com/css?family=Cairo:300,600,700,900");
+
+    .about-section>h1 {
+      font-weight: 900;
+    }
+
+    .about-section>h2,
+    h3 {
+      font-weight: 700;
+    }
+
+    .about-section>h4,
+    h5,
+    h6 {
+      font-weight: 600;
+    }
+
+    .about-section>p {
+      color: #6c757d;
+    }
+
+    img {
+      max-width: 100%;
+    }
+
+    .about-section {
+      width: 100%;
+      min-height: 100vh;
+    }
+
+    .left-header {
+      position: sticky;
+      top: 0;
+      left: 0;
+      color: #fff;
+      height: 100vh;
+      width: 100%;
+      max-width: 100%;
+      background-image: linear-gradient(to bottom,
+          rgba(0, 0, 0, 0.5),
+          rgba(0, 0, 0, 0.5)),
+        url("https://source.unsplash.com/4kkYkFNfJV8/706x900");
+      background-size: cover;
+      padding: 4rem;
+    }
+
+    .left-header::before {
+      background-color: #fff;
+      position: absolute;
+      content: "";
+      bottom: 50px;
+      left: 30px;
+      margin: 0 1rem;
+      width: 80%;
+      height: 2px;
+    }
+
+    .left-header::after {
+      background-color: #fff;
+      position: absolute;
+      content: "";
+      bottom: 50px;
+      left: 30px;
+      margin: 0 1rem;
+      height: 80%;
+      width: 2px;
+    }
+
+    .left-header h2 {
+      margin-left: 4rem;
+    }
+
+    .v-center-box {
+      min-height: 100%;
+    }
+
+    .sub-heading {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.15rem;
+      word-spacing: 0.05rem;
+    }
+
+    .about-data {
+      position: relative;
+    }
+
+    .about-data::before {
+      position: absolute;
+      content: "\003c/ ABOUT \003e";
+      top: 0;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      text-align: center;
+      font-size: 0.8rem;
+      font-weight: 900;
+      color: #dee2e6;
+      background-color: #fff;
+      width: 8rem;
+    }
+
+    .about-data i {
+      color: #f12d2d;
+    }
+
+    .about-data p {
+      font-size: 0.7rem;
+      letter-spacing: 0.05rem;
+      word-spacing: 0.2rem;
+    }
+
+    .about-data .data-number {
+      color: #494949;
+      font-size: 1.2rem;
+    }
+
+    .icon-18 {
+      font-size: 1.8rem;
+    }
+
+    @media (min-width: 992px) and (max-width: 1199px) {
+      .left-header::before {
+        width: 70%;
+      }
+    }
+
+    @media (min-height: 590px) {
+      .left-header::after {
+        height: 85%;
+      }
+    }
+
+    .media i {
+      font-size: 20px;
+    }
+
+    .ion-icon-cart-custom {
+      transform: rotateY(180deg) translateY(3px);
+      font-size: 20px;
+    }
+
+    .ion-icon-search-custom {
+      transform: translateY(3px);
+      font-size: 20px;
+    }
+
+    footer {
+      position: relative;
+      background: #343a41;
+      color: #fff;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    section {
+      min-height: 90vh;
+    }
+
+    /* styling the read more button */
+    .blog-index-custom-btn {
+      background: linear-gradient(to right, #99004d 0%, #ff0080 100%);
+      font-size: 17px;
+      color: #fff;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin: 0 5px;
+    }
+  
+    .blog-index-custom-btn:hover {
+      color: #fff;
+      letter-spacing: 1px;
+      background: linear-gradient(3%, #99004d 0%, #ff0080 100%);
+    }
+  
+    .blogpost-title-custom {
+      color: rgb(31 41 55);
+      color: #03a9f4;
+      color: #C0C0C0;
+    }
+  </style>
+
+  {% block style %}{% endblock style %}
+
+</head>
+
+<body>
+
+  <!-- navigation bar start here  -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="/">CodingSolution</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item {% block homeActive %}{% endblock homeActive %}">
+          <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item {% block blogActive %}{% endblock blogActive %}">
+          <a class="nav-link" href="/blog/?page=1">Blog</a>
+        </li>
+        <li class="nav-item {% block contactActive %}{% endblock contactActive %}">
+          <a class="nav-link" href="/contact/">Contact Us</a>
+        <li class="nav-item {% block aboutActive %}{% endblock aboutActive %}">
+          <a class="nav-link" href="/about/">About</a>
+        </li>
+        </li>
+      </ul>
+      <form method="get" action="/search" class="form-inline my-2 my-lg-0">
+        <input name="query" id="query" class="form-control mr-sm-2" type="search" placeholder="Search"
+          aria-label="Search" />
+        <button class="btn btn-outline-light my-2 my-sm-0" type="submit">
+          <ion-icon class="ion-icon-search-custom" name="search-outline"></ion-icon>
+          Search
+        </button>
+      </form>
+
+      <!-- user dropdown login / logout -->
+      {% if user.is_authenticated  %}
+
+      <div class="dropdown">
+        <button class="btn btn-outline-light ml-1 dropdown-toggle" type="button" data-toggle="dropdown">
+          {{request.user}}
+          <span class="caret"></span></button>
+        <ul class="mt-2 dropdown-menu dropdown-menu-right">
+          <li class="d-inline">
+            <a href="/logout">
+              <ion-icon name="log-out-outline"></ion-icon>
+              Logout
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      {% else %}
+
+      <a href="/login">
+        <button class="btn btn-outline-light my-2 mx-1 my-sm-0" type="submit">
+          Login
+        </button>
+      </a>
+      <a href="/signup">
+        <button class="btn btn-outline-light my-2 mx-1 my-sm-0" type="submit">
+          Sign Up
+        </button>
+      </a>
+
+      {% endif %}
+
+    </div>
+  </nav>
+  <!-- navigation bar ends here  -->
+
+  <!-- Error message reflect -->
+  {% for message in messages %}
+  <div class="alert m-0 alert-{{message.tags}}  alert-dismissible">
+    <a href="#" class="close" data-dismiss="alert" id="alert-message" aria-label="close">&times;</a>
+    {{message}}
+  </div>
+  {% endfor %}
+
+
+  {% block body %}{% endblock body %}
+
+
+  <!-- footer start here -->
+  <footer>
+    <p class="footer-content">All Right Are Reserved By Vishal Kumar © 😍</p>
+  </footer>
+
+
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+    integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous">
+  </script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+    integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous">
+  </script>
+  <!-- Sweet Alert js 
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  -->
+
+  {% block script %}{% endblock script %}
+
+  <script>
+    // alert display timeout function
+    setTimeout(function () {
+      $('#alert-message').alert('close');
+    }, 2500);
+
+  </script>
+
+
+  <!-- linking ionicons scripts -->
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+
+  <!-- fontawesome kit code  -->
+  <script src="https://kit.fontawesome.com/96c0e606a7.js" crossorigin="anonymous"></script>
+
+
+</body>
+
+</html>

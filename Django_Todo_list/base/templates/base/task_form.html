@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task_form</title>
+</head>
+
+<body>
+    
+    {% extends 'base/main.html' %}
+    {% block content %}
+
+    <div class="header bar">
+        <a href="{% url 'tasks' %}"><ion-icon name="return-up-back-outline"></ion-icon>Go Back</a>
+    </div>
+
+    <div class="card-body">
+        <form action="" method="POST">
+            {% csrf_token %}
+            {{form.as_p}}   
+            <input class="button" type="submit" value="Submit">
+        </form> 
+    </div>
+
+<!--     
+    <h2>Task Form</h2>
+    <a href="{% url 'tasks' %}">Go Back</a>
+    <a href="% url 'task' %">Back</a> comment 
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{form}} comment 
+        {{form.as_p}}   
+        <input class="button" type="submit" value="Submit">
+
+    </form> 
+-->
+
+    {% endblock content %}
+
+</body>
+
+</html>

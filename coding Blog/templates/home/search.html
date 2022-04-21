@@ -1,0 +1,89 @@
+{% extends 'basic.html' %}
+{% block title %}Seach🔥{% endblock title %}
+{% block homeActive %} active{% endblock homeActive %}
+{% block style %}
+<style>
+  .blog-index-custom-btn {
+    background: linear-gradient(to right, #99004d 0%, #ff0080 100%);
+    font-size: 17px;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .blog-index-custom-btn:hover {
+    color: #fff;
+    letter-spacing: 1px;
+    background: linear-gradient(3%, #99004d 0%, #ff0080 100%);
+  }
+
+  .blogpost-title-custom {
+    color: rgb(31 41 55);
+  }
+</style>
+{% endblock style %}
+{% block body %}
+
+
+
+<div class="container min-vh-100 my-5">
+  <div class="row my-2">
+    {% if posts|length < 1 %}
+    <div class="container">
+      <span>Your search -</span>
+      <strong>
+        <i>
+          <span class="blogpost-title-custom d-inline-block">{{Query|title}}</span>
+        </i>
+      </strong>
+      <span> - did not match any documents. </span>
+      <div class="list-group my-5">
+        <button class="btn list-group-item list-group-item-info list-group-item-action" aria-current="true">
+          Suggestions:
+        </button>
+        <button class="btn list-group-item list-group-item-action">
+          Make sure that all words are spelled correctly.
+        </button>
+        <button class="btn list-group-item list-group-item-action">
+          Try different keywords.
+        </button>
+        <button class="btn list-group-item list-group-item-action">
+          Try more general keywords.
+        </button>
+      </div>
+    </div>
+    {% endif %}
+    {% for post in posts %}
+    <div class="col-md-6">
+      <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+        <div class="col p-4 d-flex flex-column position-static">
+          <strong class="blogpost-title-custom d-inline-block mb-2 ">Article By {{post.author}}</strong>
+          <h3 class="mb-0">{{post.title}}</h3>
+          <div class="mb-1 text-muted">{{post.timeStamp}}</div>
+          <p class="card-text mb-auto">{{post.content| truncatechars:150}} ..</p>
+          <a href="{{post.slug}}" class="mt-2 stretched-link">
+            <button type="button" class="blog-index-custom-btn btn">
+              Read More
+            </button>
+          </a>
+        </div>
+        <div class="col-auto d-none d-lg-block">
+          <img src="/media/{{post.image}}" style="object-fit:cover;" class="bd-placeholder-img" width="200"
+            height="100%" aria-label="Placeholder: Thumbnail" aria-label="Placeholder: Thumbnail" alt="">
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+
+  </div>
+</div>
+
+
+
+{% endblock body %}
+{% block script %}
+<script>
+
+</script>
+{% endblock script %}

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+</head>
+
+<body>
+
+    {% extends 'base/main.html' %}
+    {% block content %}
+
+    <div class="header bar">
+        <h1>Register</h1>
+    </div>
+    
+    <div class="card-body">
+        <form method="post">
+            {% csrf_token %}
+            {{form.as_p}}
+            <input class="button" type="submit" value="Register">
+        </form>
+        
+        <p class="some0001">Already have an account? <a href="{% url 'login' %}">Login</a></p>
+    </div>
+    {% endblock content %}
+    <!-- <h1>Register</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label>{{form.username.label}}</label>{{form.username}}
+        <label>{{form.password1.label}}</label>{{form.password1}}
+        <label>{{form.password2.label}}</label>{{form.password2}}
+        {{form.as_p}} comment
+        <input class="button" type="submit" value="Register">
+    </form>
+    
+    <p class="some0001">Already have an account? <a href="{% url 'login' %}">Login</a></p> -->
+</body>
+
+</html>

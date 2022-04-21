@@ -1,0 +1,23 @@
+{% extends 'shop/basic.html' %}
+{% block title %}Tracker 🛒{% endblock title %}
+{% block style %}{% endblock style %}
+{% block body %}
+<section class="container w-75 d-flex align-items-center justify-content-center flex-column">
+    <h5>{{h5}}</h5>
+    <h6>{{h5_1}}</h6>
+    <p>{{p}}</p>
+    <a href="/shop">
+        <button type="button" class="btn btn-light btn-outline-secondary">
+            {{button}}
+        </button>
+    </a>
+</section>
+<script>
+    {% if thank %}
+    console.log('hi this is ')
+    // alert('Thanks for ordering with us. Your order is is {{id}}. Use it to track your order using our order tracker');
+    localStorage.clear();
+    // document.location = "/shop";
+    {% endif %}
+</script>
+{% endblock body %}
