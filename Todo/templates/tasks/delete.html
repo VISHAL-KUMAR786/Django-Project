@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+	<link
+	rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous"
+  />
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">
+  </head>
+  <body>
+    <div class="container my-5 p-3 bg-light">
+      <h5 class="text-dark text-break bg-light py-3">Are you sure you want to delete "{{item}}"?</h5>
+
+	  
+      <form method="POST" action="">
+		{% csrf_token %}
+		<a class="btn btn-danger" href="{% url 'task-home' %}">Cancel</a>
+        <input type="submit" class="d-inline btn btn-success" name="Confirm" />
+      </form>
+
+    </div>
+  </body>
+</html>

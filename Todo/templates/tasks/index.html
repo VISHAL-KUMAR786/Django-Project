@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Home 🏡</title>
+
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+	
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+  </head>
+  <body>
+    <div class="container my-5 bg-light p-5">
+      <form class="row" method="POST" action="/">
+        {% csrf_token %} {{form.title}}
+        <input class="btn btn-success" type="submit" name="Create Task" />
+      </form>
+
+      <div class="row mt-2">
+        {% for task in tasks %}
+        <div class="w-100 border border-secondary mt-1 text-dark d-flex justify-content-between">
+          <div class="col-8 text-break d-flex align-items-center">
+            {% if task.complete == True %}
+            <strike>{{task|title}}</strike>
+            {% else %}
+            <span>{{task|title}}</span>
+            {% endif %}
+          </div>
+
+          <div class="col-4 d-flex flex-row-reverse">
+            <a
+              class="btn btn-sm btn-warning m-2"
+              href="{% url 'task-update' task.id %}"
+              >Update</a
+            >
+            <a
+              class="btn btn-sm btn-danger m-2"
+              href="{% url 'task-delete' task.id %}"
+              >Delete</a
+            >
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </body>
+</html>
