@@ -1,33 +1,61 @@
 {% extends 'basic-discord.html' %}
 {% block title %}Home{% endblock title %}
-{% block style %}{% endblock style %}
+{% block style %}
+<style>
+    .room-container{
+        display: grid;
+        grid-template-columns: 3fr 1fr;
+    }
+</style>
+{% endblock style %}
 
 {% block body %}
 
-<h1>{{room.name}}</h1>
-<p>{{room.description|linebreaks}}</p>
+<div class="room-container">
 
-<div class="comment-wrapper"> 
-    <h3>Conversation</h3>
-    <hr>
-    {% for message in room_messages %}
-        <div>
-            <small>@{{message.user}} {{message.created|timesince}}ago</small>
+    <div>
+
+        <h1>{{room.name}}</h1>
+        <p>{{room.description|linebreaks}}</p>
+
+        <div class="comment-wrapper"> 
+            <h3>Conversation</h3>
+            <hr>
+            {% for message in room_messages %}
+                <div>
+                    {% if request.user == message.user %}
+                    <a href="{% url 'base:delete-message' message.id %}">Delete</a>
+                    {% endif %}
+                    <small>@{{message.user}} {{message.created|timesince}}ago</small>
+                    <p>{{message.body}}</p>
+                    <hr>
+                </div>
+            {% endfor %}
         </div>
-        {{message.body}}
+
+        {% if request.user.is_authenticated %}
+        <div class="comment-form">
+            <form action="" method="post">
+                {% csrf_token %}
+                <input type="text" name="body" placeholder="Write your message here.." id="">
+            </form>
+        </div>
+        {% endif %}
+
+    </div>
+
+    <div>
+        <h3>Participants</h3>
+        {% for user in participants %}
+            <div>
+                <p>@{{user.username}}</p>
+            </div>
+        {% endfor %}
         <hr>
-    {% endfor %}
-</div>
+    </div>
 
-{% if request.user.is_authenticated %}
-<div class="comment-form">
-    <form action="" method="post">
-        {% csrf_token %}
-        <input type="text" name="body" placeholder="Write your message here.." id="">
-    </form>
-</div>
-{% endif %}
 
+</div>
 
 {% endblock body %}
 

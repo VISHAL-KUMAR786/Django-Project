@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import UserCreationForm #registration
+from django.contrib.auth.forms import UserCreationForm  # registration
 from .form import RoomForm
 from django.db.models import Q
 
@@ -33,13 +33,14 @@ def loginPage(request):
         else:
             messages.error(request, 'Username or Password does not exits .')
 
-    content = {'page':page}
+    content = {'page': page}
     return render(request, 'base/login_register.html', content)
 
 
 def logoutUser(request):
     logout(request)
     return redirect('base:Home')
+
 
 def registerUser(request):
     form = UserCreationForm()
@@ -50,13 +51,14 @@ def registerUser(request):
             user = form.save(commit=False)
             user.username = user.username.lower()
             user.save()
-            login(request,user)
+            login(request, user)
             return redirect('base:Home')
         else:
             messages.error(request, 'An Error occur during registeration.')
 
-    content = {'form':form}
-    return render(request,'base/login_register.html', content)
+    content = {'form': form}
+    return render(request, 'base/login_register.html', content)
+
 
 def index(request):
     q = request.GET.get('q') if request.GET.get('q') != None else ''
@@ -68,24 +70,46 @@ def index(request):
 
     topics = Topic.objects.all()
     room_count = rooms.count()
-    content = {'rooms': rooms, 'topics': topics, 'room_count': room_count}
+    room_messages = Message.objects.filter(
+        Q(room__topic__name__icontains=q)
+    )
+
+    content = {'rooms': rooms, 'topics': topics,
+               'room_count': room_count, 'room_messages': room_messages}
     return render(request, 'base/home.html', content)
 
 
 def room(request, pk):
     room = Room.objects.get(id=pk)
     room_messages = room.message_set.all().order_by('-created')
+    participants = room.participants.all()  # many to many no need of _set
 
     if request.method == 'POST':
-        message = Message.objects.create(
-            user = request.user,
-            room = room,
-            body = request.POST.get('body')
-        )
-        return redirect('base:room',pk=room.id)
+        if request.POST.get('body') == '':
+            messages.error(request, 'Empty comment are not allowed')
+            return redirect('base:room', pk=room.id)
 
-    content = {'room': room,'room_messages':room_messages}
+        message = Message.objects.create(
+            user=request.user,
+            room=room,
+            body=request.POST.get('body')
+        )
+
+        room.participants.add(request.user)
+        return redirect('base:room', pk=room.id)
+
+    content = {'room': room, 'room_messages': room_messages,
+               'participants': participants}
     return render(request, 'base/room.html', content)
+
+
+def userProfile(request,pk):
+    user = User.objects.get(id=pk)
+    rooms = user.room_set.all()
+    room_messages = user.message_set.all()
+    topics = Topic.objects.all()
+    content = {'user':user,'rooms':rooms,'room_messages':room_messages,'topics':topics}
+    return render(request, 'base/profile.html', content)
 
 
 @login_required(login_url='base:login')
@@ -108,7 +132,7 @@ def updateRoom(request, pk):
     room = Room.objects.get(id=pk)
     form = RoomForm(instance=room)
 
-    # we are able to update our own room    
+    # we are able to update our own room
     if request.user != room.host:
         return HttpResponse('You are not allowed here!!')
 
@@ -135,4 +159,19 @@ def deleteRoom(request, pk):
         return redirect('base:Home')
 
     content = {'obj': obj}
+    return render(request, 'base/delete_room.html', content)
+
+
+@login_required(login_url='base:login')
+def deleteMessage(request, pk):
+    message = Message.objects.get(id=pk)
+
+    if request.user != message.user:
+        return HttpResponse('You are not allowed here!!')
+
+    if request.method == 'POST':
+        message.delete()
+        return redirect('base:Home')  # update to that particular page
+
+    content = {'obj': message}
     return render(request, 'base/delete_room.html', content)
