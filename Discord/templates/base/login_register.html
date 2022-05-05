@@ -1,0 +1,24 @@
+{% extends 'basic-discord.html' %}
+{% block title %}Home{% endblock title %}
+{% block style %}
+{% endblock style %}
+
+{% block body %}
+
+    <div>
+        <form action="" method="post">
+            {% csrf_token %}
+
+            <label for="username">Username : </label>
+            <input type="text" name="username" placeholder="Enter username ">
+
+            <label for="password">Password : </label>
+            <input type="password" name="password" placeholder="Enter password">
+            
+            <input type="submit" value="Login">
+        </form>
+    </div>
+
+{% endblock body %}
+
+{% block script %}{% endblock script %}

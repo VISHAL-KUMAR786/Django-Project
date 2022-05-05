@@ -1,5 +1,4 @@
 {% extends 'basic-discord.html' %}
-<!DOCTYPE html>
 {% block title %}Home{% endblock title %}
 {% block style %}
 <style>
@@ -25,10 +24,16 @@
     </div>
     
     <div>
+        <h5>{{room_count}} rooms available</h5>
+        <a href="{% url 'base:createRoom' %}">Create Room</a>
         {% for room in rooms %}
-        <div>     
+        <div>    
+
+            {% if request.user == room.host %}
             <a href="{% url 'base:updateRoom' room.id %}">Edit</a>
             <a href="{% url 'base:deleteRoom' room.id %}">delete</a>
+            {% endif %}
+            
             <span>@{{room.host.username}}</span>
             <h5>{{room.id}} -- <a href="{% url 'base:room'  room.id %}">{{room.name}}</a></h5>
             <small>{{room.topic.name}}</small>

@@ -5,6 +5,9 @@ from . import views
 app_name = 'base'
 
 urlpatterns = [
+    path("login/", views.loginPage, name="login"), 
+    path("logout/", views.logoutUser, name="logout"), 
+
     path('', views.index , name="Home"),
     path('create-room/', views.createRoom , name="createRoom"),
     path('room/<str:pk>/', views.room , name="room"),

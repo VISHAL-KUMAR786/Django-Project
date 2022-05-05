@@ -1,4 +1,17 @@
 <a href="/">
     <h1>logo</h1>
 </a>
+
+<form action="{% url 'base:Home' %}" method="get">
+    <input type="text" name="q" placeholder="Search Room....">
+
+</form>
+
+{% if request.user.is_authenticated %}
+    <a href="{% url 'base:logout' %}">Logout</a>
+{% else %}
+    <a href="{% url 'base:login' %}">Login </a>
+{% endif %}
+
+
 <hr>
