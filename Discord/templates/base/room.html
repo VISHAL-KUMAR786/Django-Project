@@ -3,8 +3,32 @@
 {% block style %}{% endblock style %}
 
 {% block body %}
-    <h1>{{room.name}}</h1>
-    <p>{{room.description|linebreaks}}</p>
-    {% endblock body %}
+
+<h1>{{room.name}}</h1>
+<p>{{room.description|linebreaks}}</p>
+
+<div class="comment-wrapper"> 
+    <h3>Conversation</h3>
+    <hr>
+    {% for message in room_messages %}
+        <div>
+            <small>@{{message.user}} {{message.created|timesince}}ago</small>
+        </div>
+        {{message.body}}
+        <hr>
+    {% endfor %}
+</div>
+
+{% if request.user.is_authenticated %}
+<div class="comment-form">
+    <form action="" method="post">
+        {% csrf_token %}
+        <input type="text" name="body" placeholder="Write your message here.." id="">
+    </form>
+</div>
+{% endif %}
+
+
+{% endblock body %}
 
 {% block script %}{% endblock script %}

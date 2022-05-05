@@ -1,21 +1,23 @@
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
-from .models import Room, Topic
+from .models import Room, Topic, Message
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import UserCreationForm #registration
 from .form import RoomForm
 from django.db.models import Q
 
 
 def loginPage(request):
+    page = 'login'
 
     if request.user.is_authenticated:
         return redirect('base:Home')
 
     if request.method == 'POST':
-        username = request.POST.get('username')
+        username = request.POST.get('username').lower()
         password = request.POST.get('password')
 
         try:
@@ -31,7 +33,7 @@ def loginPage(request):
         else:
             messages.error(request, 'Username or Password does not exits .')
 
-    content = {}
+    content = {'page':page}
     return render(request, 'base/login_register.html', content)
 
 
@@ -39,6 +41,22 @@ def logoutUser(request):
     logout(request)
     return redirect('base:Home')
 
+def registerUser(request):
+    form = UserCreationForm()
+
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.username = user.username.lower()
+            user.save()
+            login(request,user)
+            return redirect('base:Home')
+        else:
+            messages.error(request, 'An Error occur during registeration.')
+
+    content = {'form':form}
+    return render(request,'base/login_register.html', content)
 
 def index(request):
     q = request.GET.get('q') if request.GET.get('q') != None else ''
@@ -55,9 +73,18 @@ def index(request):
 
 
 def room(request, pk):
-    room = None
     room = Room.objects.get(id=pk)
-    content = {'room': room}
+    room_messages = room.message_set.all().order_by('-created')
+
+    if request.method == 'POST':
+        message = Message.objects.create(
+            user = request.user,
+            room = room,
+            body = request.POST.get('body')
+        )
+        return redirect('base:room',pk=room.id)
+
+    content = {'room': room,'room_messages':room_messages}
     return render(request, 'base/room.html', content)
 
 

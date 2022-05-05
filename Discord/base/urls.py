@@ -7,6 +7,7 @@ app_name = 'base'
 urlpatterns = [
     path("login/", views.loginPage, name="login"), 
     path("logout/", views.logoutUser, name="logout"), 
+    path("register/", views.registerUser, name="register"), 
 
     path('', views.index , name="Home"),
     path('create-room/', views.createRoom , name="createRoom"),
