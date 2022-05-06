@@ -1,34 +1,31 @@
 {% extends 'basic-discord.html' %}
+{% load static %}
 {% block title %}Home{% endblock title %}
 {% block style %}
-<style>
-    .home-container{
-        display:grid;
-        grid-template-columns: 1fr 3fr 1fr;
-    }
-</style>
+
 {% endblock style %}
 
 {% block body %}
 
-<div class="home-container">
-    
-    <div>
+<main class="layout layout--3">
+    <div class="container">
+
+        <!-- Topics Start -->
         {% include 'base/topic_component.html' %}
-        
-    </div>
-    
-    <div>
+        <!-- Topics End -->
+
+        <!-- Room List Start -->
         <h5>{{room_count}} rooms available</h5>
-        <a href="{% url 'base:createRoom' %}">Create Room</a>
-        {% include 'base/feed_component.html' %}
-    </div>
+            <a href="{% url 'base:createRoom' %}">Create Room</a>
+            {% include 'base/feed_component.html' %}
+        <!-- Room List End -->
 
-    <div>
+        <!-- Activities Start -->
         {% include 'base/activity_component.html' %}
-    </div>
+        <!-- Activities End -->
 
-</div>
+    </div>
+</main>
 
 {% endblock body %}
 
