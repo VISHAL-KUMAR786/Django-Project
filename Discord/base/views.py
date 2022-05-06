@@ -62,6 +62,7 @@ def registerUser(request):
 
 def index(request):
     q = request.GET.get('q') if request.GET.get('q') != None else ''
+    # do pagination at this
     rooms = Room.objects.filter(
         Q(topic__name__icontains=q) |
         Q(name__icontains=q) |
@@ -72,7 +73,7 @@ def index(request):
     room_count = rooms.count()
     room_messages = Message.objects.filter(
         Q(room__topic__name__icontains=q)
-    )
+    )[:3]
 
     content = {'rooms': rooms, 'topics': topics,
                'room_count': room_count, 'room_messages': room_messages}
