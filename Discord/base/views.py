@@ -70,7 +70,7 @@ def index(request):
         Q(description__icontains=q)
     )
 
-    topics = Topic.objects.all()
+    topics = Topic.objects.all()[0:5]
     room_count = rooms.count()
     room_messages = Message.objects.filter(
         Q(room__topic__name__icontains=q)
@@ -222,3 +222,14 @@ def updateUser(request):
 
     content = {'form':form}
     return render(request, 'base/edit-user.html', content)
+
+def topicsPage(request):
+    q = request.GET.get('q') if request.GET.get('q') != None else ''
+    topics = Topic.objects.filter(name__icontains=q)
+    content = {'topics':topics}
+    return render(request,'base/topics.html',content)
+
+def activityPage(request):
+    room_messages = Message.objects.all()[:3]
+    content = {'room_messages':room_messages}
+    return render(request,'base/activity.html',content)
