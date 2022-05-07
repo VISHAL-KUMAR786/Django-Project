@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm  # registration
-from .form import RoomForm
+from .form import RoomForm, UserForm
 from django.db.models import Q
 
 
@@ -54,7 +54,8 @@ def registerUser(request):
             login(request, user)
             return redirect('base:Home')
         else:
-            messages.error(request, 'An Error occur during registeration.')
+            messages.error(request,str(form.errors))
+            return redirect('base:Home')
 
     content = {'form': form}
     return render(request, 'base/login_register.html', content)
@@ -104,29 +105,43 @@ def room(request, pk):
     return render(request, 'base/room.html', content)
 
 
-def userProfile(request,pk):
+def userProfile(request, pk):
     user = User.objects.get(id=pk)
     rooms = user.room_set.all()
     room_messages = user.message_set.all()
     topics = Topic.objects.all()
-    content = {'user':user,'rooms':rooms,'room_messages':room_messages,'topics':topics}
+    content = {'user': user, 'rooms': rooms,
+               'room_messages': room_messages, 'topics': topics}
     return render(request, 'base/profile.html', content)
 
 
 @login_required(login_url='base:login')
 def createRoom(request):
     form = RoomForm()
+    topics = Topic.objects.all()
 
     if request.method == 'POST':
-        form = RoomForm(request.POST)
-        if form.is_valid():
-            room = form.save(commit=False)
-            room.host = request.user
-            room.save()
-            return redirect('base:Home')
+        topic_name = request.POST.get('topic')
+        topic, created = Topic.objects.get_or_create(name=topic_name)
+
+        Room.objects.create(
+            host=request.user,
+            topic=topic,
+            name=request.POST.get('name'),
+            description=request.POST.get('description'),
+        )
+
+        return redirect('base:Home')
+
+        # form = RoomForm(request.POST)
+        # if form.is_valid():
+        #     room = form.save(commit=False)
+        #     room.host = request.user
+        #     room.save()
+        #     return redirect('base:Home')
         pass
 
-    content = {'form': form}
+    content = {'form': form, 'topics': topics}
     return render(request, 'base/room_form.html', content)
 
 
@@ -134,18 +149,27 @@ def createRoom(request):
 def updateRoom(request, pk):
     room = Room.objects.get(id=pk)
     form = RoomForm(instance=room)
+    topics = Topic.objects.all()
 
     # we are able to update our own room
     if request.user != room.host:
         return HttpResponse('You are not allowed here!!')
 
     if request.method == 'POST':
-        form = RoomForm(request.POST, instance=room)
-        if form.is_valid():
-            form.save()
-            return redirect('base:Home')
+        topic_name = request.POST.get('topic')
+        topic, created = Topic.objects.get_or_create(name=topic_name)
 
-    content = {'form': form}
+        room.name = request.POST.get('name')
+        room.topic = topic
+        room.description = request.POST.get('description')
+        room.save()
+        return redirect('base:Home')
+        # form = RoomForm(request.POST, instance=room)
+        # if form.is_valid():
+        #     form.save()
+        #     return redirect('base:Home')
+
+    content = {'form': form, 'topics': topics, 'room': room}
     return render(request, 'base/room_form.html', content)
 
 
@@ -178,3 +202,23 @@ def deleteMessage(request, pk):
 
     content = {'obj': message}
     return render(request, 'base/delete_room.html', content)
+
+
+@login_required(login_url='base:login')
+def updateUser(request):
+    user = request.user
+    form = UserForm(instance=user)
+
+    if request.method == 'POST':
+        form = UserForm(instance=user,data=request.POST)
+
+        # print(form.errors)
+        if form.is_valid():
+            form.save()
+            return redirect('base:profile', pk= user.id)
+        else:
+            messages.error(request,str(form.errors))
+            return redirect('base:Home')
+
+    content = {'form':form}
+    return render(request, 'base/edit-user.html', content)
