@@ -10,7 +10,7 @@ make as a part of editing and deleting on the main page
   <div class="roomListRoom__header">
     <a href="{% url 'base:profile' room.host.id %}" class="roomListRoom__author">
       <div class="avatar avatar--small">
-        <img src="https://randomuser.me/api/portraits/women/11.jpg" />
+        <img src="{{room.host.avatar.url}}" />
       </div>
       <span>@{{room.host.username}}</span>
     </a>
@@ -21,6 +21,8 @@ make as a part of editing and deleting on the main page
   <div class="roomListRoom__content">
     <a href="{% url 'base:room'  room.id %}">{{room.name}}</a>
     <p>
+      {{request.host.avatar.url}}
+
       Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur ducimus harum dolorem, obcaecati
       mollitia omnis quasi aut consequuntur enim itaque labore.
     </p>
