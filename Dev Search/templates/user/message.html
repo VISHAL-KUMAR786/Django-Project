@@ -1,0 +1,32 @@
+{% extends 'base-project.html' %}
+{% block title %}Home{% endblock title %}
+{% block style %}
+<style>
+
+</style>
+{% endblock style %}
+{% block body %}
+<!-- Main Section -->
+<main class="messagePage my-xl">
+  <div class="content-box">
+    <div class="message">
+      <a class="backButton" href="{% url 'user:inbox' %}"><i class="im im-angle-left"></i></a>
+      <h2 class="message__subject">{{messageReq.subject}}</h4>
+        {% if messageReq.sender %}
+        <a href="{% url 'user:Profile' messageReq.sender.id %}" class="message__author">{{messageReq.name}}</a>
+        {% else %}
+        <p class="message__author">{{messageReq.name}} </p>
+        {% endif %}
+        <p class="message__date">{{messageReq.created}}</p>
+        <div class="message__body">
+          {{messageReq.body}}
+        </div>
+    </div>
+  </div>
+
+{% endblock body %}
+{% block script %}
+<script>
+
+</script>
+{% endblock script %}

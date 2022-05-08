@@ -1,0 +1,68 @@
+{% extends 'base-project.html' %}
+{% load static %}
+{% block title %}Home{% endblock title %}
+{% block style %}
+<style>
+    .some-special{
+        display:flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    input[type='text'],
+    input[type='email'],
+    input[type='password']{
+        min-width: 24rem;
+        width: 100%;
+        padding: 1.2rem 1.5rem;
+        border-radius: 0.5rem;
+        border: 2px solid var(--color-light);
+        transition: all 0.3s ease-in-out;
+        background-color: var(--color-bg);
+    }
+
+    input[type='text']:focus,
+    input[type='email']:focus,
+    input[type='password']:focus,
+    input[type='text']:active,
+    input[type='email']:active,
+    input[type='password']:active{
+        outline: none;
+        border: 2px solid var(--color-main);
+    }
+</style>
+{% endblock style %}
+{% block body %}
+
+    <div class="auth" style="margin:15vh 0;">
+        <div class="card">
+            <div class="auth__header text-center">
+                <a href="/">
+                    <img src="{% static 'images/icon.svg' %}" alt="icon" />
+                </a>
+                <h3>Enter new password</h3>
+                <p>Please enter your new password twice so we can verify you typed it in correctly.</p>
+            </div>
+
+            <form method="post" class="form auth__form">
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="form__field">
+                    <label for="formInput#email">{{field.label}}: </label>
+                    {{field}}
+                    {{field.help_text  }}
+                </div>
+                {% endfor %}
+                <input type="submit" class="btn btn--sub btn--lg" value="Submit">
+                
+            </form>
+        </div>
+    </div>  
+
+
+{% endblock body %}
+{% block script %}
+<script>
+
+</script>
+{% endblock script %}
